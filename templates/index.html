@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Llama AI Chatbot</title>
+</head>
+<body>
+    <h1>Welcome to Llama AI Chatbot</h1>
+    <textarea id="context" rows="10" cols="50" readonly></textarea><br>
+    <input type="text" id="question" placeholder="Ask a question">
+    <button onclick="sendQuestion()">Send</button>
+    <script>
+        async function sendQuestion() {
+            const question = document.getElementById("question").value;
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ question }),
+            });
+            const data = await response.json();
+            const contextBox = document.getElementById("context");
+            contextBox.value += "You: " + question + "\nBot: " + data.response + "\n";
+            document.getElementById("question").value = "";
+        }
+    </script>
+</body>
+</html>
